@@ -1,6 +1,6 @@
 ﻿
-using Infrastructure;
-using Infrastructure.Models;
+using ApplicationLayer.Interface;
+using Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -21,9 +21,9 @@ namespace ApplicationLayer
     }
     public class SaveSearchHistoryCommandHandler :IRequestHandler<SaveSearchHistoryCommand, bool>
     {
-        private readonly IGenericRepository<SearchHistory> _repositorygen;
+        private readonly ISearchHistory _repositorygen;
 
-        public SaveSearchHistoryCommandHandler(IGenericRepository<SearchHistory> repositorygen)
+        public SaveSearchHistoryCommandHandler(ISearchHistory repositorygen)
         {
             _repositorygen = repositorygen;
           
@@ -34,9 +34,9 @@ namespace ApplicationLayer
             var searchHistory = new SearchHistory
             {
                 Query = command.Query,
-                Timestamp = command.Timestamp
+                Timestamp = command.Timestamp,
+                UserId=1
             };
-
              _repositorygen.Add(searchHistory);
             return true;
              

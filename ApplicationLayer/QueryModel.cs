@@ -1,9 +1,8 @@
 ﻿namespace ApplicationLayer
 {
-  
     using MediatR;
-    using Infrastructure;
     using Domain;
+    using ApplicationLayer.Interface;
 
     public class SearchProductQueryModel :IRequest<SearchProductResponse>
     {
@@ -30,11 +29,11 @@
     public class SearchQueryHandler : IRequestHandler<SearchProductQueryModel, SearchProductResponse>
     {
        
-        private readonly IGenericRepository<Infrastructure.Models.Product> _repositorygen;
-        public SearchQueryHandler( IGenericRepository<Infrastructure.Models.Product> repositorygen)
+        private readonly IProductRepository _repoProduct    ;
+        public SearchQueryHandler(IProductRepository repoProduct)
         {
-          
-            _repositorygen = repositorygen;
+
+            _repoProduct = repoProduct;
         }
         public async Task<SearchProductResponse> Handle(SearchProductQueryModel reqData, CancellationToken cancellationToken)
         {
@@ -49,7 +48,7 @@
             };
              //Uncomment the below line to use the stored procedure
              // var resultSet =  _repository.GetProductsByCategoryAsync(criteria, reqData.ProductAttribute) ;
-             var resultSet= await  _repositorygen.FilterProductBasedOnData(criteria);
+             var resultSet= await  _repoProduct.FilterProductBasedOnData(criteria);
              return resultSet;
         }
     }
