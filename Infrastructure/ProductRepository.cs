@@ -14,51 +14,16 @@ namespace Infrastructure
     using Microsoft.EntityFrameworkCore;
     using Infrastructure.Models;
     using Domain;
+    using ApplicationLayer.Interface;
 
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class ProductHistory : IProductRepository 
     {
         protected readonly AppDbContext _context;
-        private readonly DbSet<T> _dbSet;
+       
 
-        public GenericRepository(AppDbContext context)
+        public ProductHistory(AppDbContext context)
         {
             _context = context;
-            _dbSet = context.Set<T>();
-        }
-
-        public IQueryable<T> GetAll()
-        {
-            return _dbSet.AsQueryable();
-        }
-
-        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
-        {
-            return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
-        }
-
-        public async Task Add(T entity)
-        {
-            await _dbSet.AddAsync(entity);
-        }
-
-        public void Update(T entity)
-        {
-            _dbSet.Update(entity);
-        }
-
-        public void Delete(T entity)
-        {
-            _dbSet.Remove(entity);
-        }
-
-        public async Task<int> SaveChangesAsync()
-        {
-            return _context.SaveChanges();
-        }
-
-        public Task<T> GetByIdAsync(object id)
-        {
-            throw new NotImplementedException();
         }
         public async Task<SearchProductResponse> FilterProductBasedOnData(ProductSearchData criteria)
         {

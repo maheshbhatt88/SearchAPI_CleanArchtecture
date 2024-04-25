@@ -5,6 +5,7 @@ using Serilog.Events;
 using Serilog;
 using Microsoft.OpenApi.Models;
 using Infrastructure;
+using ApplicationLayer.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApplicationLayer.SaveSearchHistoryCommandHandler).Assembly));
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IProductRepository, ProductHistory>();
+builder.Services.AddScoped<ISearchHistory, SearchHistoryRepository>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApplicationLayer.SearchQueryHandler).Assembly));
 
 //Add logging file 
