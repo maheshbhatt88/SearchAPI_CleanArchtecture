@@ -5,7 +5,7 @@
     using Infrastructure;
     using Domain;
 
-    public class SearchProductQueryModel : IRequest<SearchProductResponse>
+    public class SearchProductQueryModel :IRequest<SearchProductResponse>
     {
         public string ? Name { get; set; }
         public string? BrandName { get; set; }
