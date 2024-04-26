@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using Infrastructure.Models;
 using ApplicationLayer.Interface;
  namespace Infrastructure
 {
-    using System;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Threading.Tasks;
-    using System.Collections.Generic;
-    using Domain;
+  
     using Inframodel=Infrastructure.Models;
     using Microsoft.EntityFrameworkCore;
     using SearchHistory = SearchHistory;
