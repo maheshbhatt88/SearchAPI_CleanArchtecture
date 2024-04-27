@@ -9,6 +9,6 @@ namespace ApplicationLayer.Interface
 {
     public interface IProductRepository
     {
-        public Task<SearchProductResponse> FilterProductBasedOnData(ProductSearchData criteria);
+        public SearchProductResponse FilterProductBasedOnData(ProductSearchData criteria);
     }
 }
