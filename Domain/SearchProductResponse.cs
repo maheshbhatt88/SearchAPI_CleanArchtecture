@@ -12,7 +12,7 @@ namespace  Domain
     {/// <summary>
      /// List of search result
      /// </summary>
-        public List<Dictionary<string, object>> SearchResult { get; set; }
+        public List<object> SearchResult { get; set; }
         /// <summary>
         /// List of Product Attribute
         /// </summary

@@ -48,7 +48,7 @@
             };
              //Uncomment the below line to use the stored procedure
              // var resultSet =  _repository.GetProductsByCategoryAsync(criteria, reqData.ProductAttribute) ;
-             var resultSet= await  _repoProduct.FilterProductBasedOnData(criteria);
+             var resultSet=   _repoProduct.FilterProductBasedOnData(criteria);
              return resultSet;
         }
     }

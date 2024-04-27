@@ -33,7 +33,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApplicationLayer.SaveSearchHistoryCommandHandler).Assembly));
-builder.Services.AddScoped<IProductRepository, ProductHistory>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ISearchHistory, SearchHistoryRepository>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApplicationLayer.SearchQueryHandler).Assembly));
 

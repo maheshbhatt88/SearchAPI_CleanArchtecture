@@ -11,17 +11,24 @@ namespace Infrastructure
     using Infrastructure.Models;
     using Domain;
     using ApplicationLayer.Interface;
+    using System.Diagnostics;
+    using Microsoft.Extensions.Logging;
+    using Serilog;
+    using Serilog.Sinks.File;
 
-    public class ProductHistory : IProductRepository 
+    public class ProductRepository : IProductRepository 
     {
         protected readonly AppDbContext _context;
-       
+        protected readonly ILogger<ProductRepository> _logger;
 
-        public ProductHistory(AppDbContext context)
+
+
+        public ProductRepository(AppDbContext context, ILogger<ProductRepository> logger)
         {
+            _logger = logger;
             _context = context;
         }
-        public async Task<SearchProductResponse> FilterProductBasedOnData(ProductSearchData criteria)
+        public SearchProductResponse FilterProductBasedOnData(ProductSearchData criteria)
         {
             var nameKeywords = criteria.ProductName?.Split(',');
             var brandKeywords = criteria.BrandName?.Split(',');
@@ -62,34 +69,25 @@ namespace Infrastructure
                 }
             }
 
-            List<Dictionary<string, object>> returnObj = new List<Dictionary<string, object>>();
-
-            foreach (var item in query)
+            var returnObj = query.Select(item => new
             {
-                Dictionary<string, object> dictionary = new Dictionary<string, object>
-               {
-                 { "ProductDetails", new
-              {
-                Name = item.Name,
-                Price = item.Price.ToString(),
-                BrandName = item.Brand.Name, // Assuming Brand has a Name property
-                CategoryName = item.Category.Name, // Assuming Category has a Name property
-                Description = item.Description,
-                Rating = item.Rating,
-                ReviewCount = item.ReviewCount
-            }
-        },
-        { "ProductAttributes", item.ProductAttributes.Select(attr => new
-            {
-                Name = attr.AttributeName,
-                Value = attr.AttributeValue
-            })
-        }
-    };
-
-                returnObj.Add(dictionary);
-            }
-
+                ProductDetails = new
+                {
+                    Name = item.Name,
+                    Price = item.Price.ToString(),
+                    BrandName = item.Brand.Name, // Assuming Brand has a Name property
+                    CategoryName = item.Category.Name, // Assuming Category has a Name property
+                    Description = item.Description,
+                    Rating = item.Rating,
+                    ReviewCount = item.ReviewCount
+                },
+                ProductAttributes = item.ProductAttributes.Select(attr => new
+                {
+                    Name = attr.AttributeName,
+                    Value = attr.AttributeValue
+                })
+            }).Cast<object>().ToList();
+           
             return new SearchProductResponse { SearchResult = returnObj, TotalRecords = returnObj.Count };
 
         }
